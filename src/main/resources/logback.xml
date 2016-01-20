@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.n3r.sandbox.log.LogbackPatternMask">
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+                <regexSubstituers>s%(\d{6})\d{6}(\d{3,5}[xX]?)%$1++++++$2%g
+                   s%(\d)\d{3}(\d)%$1***$2%g</regexSubstituers>
+            </layout>
+        </encoder>
+    </appender>
+
+    <!-- another way to use %repace, but it is limited only on replace expr -->
+    <appender name="Console2" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %replace(%msg){'(\d{6})\d{6}(\d{3,5}[xX]?)', '$1******$2'}%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="Console3" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <!--<appender-ref ref="Console" />-->
+        <appender-ref ref="Console3" />
+    </root>
+
+</configuration>
+

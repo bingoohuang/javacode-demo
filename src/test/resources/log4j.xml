@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <param name="target" value="System.out"/>
+        <layout class="org.n3r.sandbox.log.Log4jPatternMask">
+            <param name="ConversionPattern" value="%-5p %d{yyyy-MM-dd HH:mm:ss,SSS} %C{1}:%M(line %L) - %m%n"/>
+            <param name="regexSubstituers" value="s%(\\d{6})\\d{6}(\\d{3,5}[xX]?)%$1++++++$2%g
+                   s%(\\d)\\d{3}(\\d)%$1***$2%g"/>
+        </layout>
+    </appender>
+
+
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</log4j:configuration>
+
