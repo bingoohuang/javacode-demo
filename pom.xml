@@ -14,21 +14,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>java.net</id>-->
-    <!--<url>https://maven.java.net/content/repositories/public/</url>-->
-    <!--</repository><repository>-->
-    <!--<id>central</id>-->
-    <!--<url>http://repo1.maven.org/maven/</url>-->
-    <!--</repository>-->
-    <!--<repository>-->
-    <!--<id>springsource libs-snapshot</id>-->
-    <!--<url>http://repo.springsource.org/libs-snapshot</url>-->
-    <!--</repository>-->
-    <!--</repositories>-->
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>2.5</version>
+        </dependency>
         <dependency>
             <groupId>com.github.dblock</groupId>
             <artifactId>oshi-core</artifactId>
