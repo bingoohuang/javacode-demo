@@ -3,6 +3,9 @@ package org.n3r.sandbox.liyun;
 import com.alibaba.fastjson.JSON;
 import lombok.*;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -57,18 +60,27 @@ public class YidongbangIntegrationPageDemo {
         val user = new YidongbangUser("12345678910", "孙悟空", "13818182828", "男");
         // 生成JSON
         val json = JSON.toJSONString(user);
+        // 5分钟后过期
+        val expiredAt = DateTime.now().plusMinutes(5).toString("yyyy-MM-dd HH:mm:ss");
 
         // key需要提前生成好，并且通过安全渠道提供给对方。
         val key = generateAesKey();
         // eg. DX1M3qaCL3QeA7rJF2Io4Q
 
         // 生成加密令牌，附加在权益页面URL后面，比如: http://liyun.easy-hi.com/index.html?token=Xxx
-        val token = encrypt(json, key);
+        val token = encrypt(expiredAt + "^" + json, key);
         // eg.cTt6XGoZsJCoStiMDGIDjHe1SRywPIVYTyhI1p5Lg0OpkSOjJ7fOgslIvf50yYgquVt-_LSP-kRlrFqYEeFDPTP86GFQIRYvaIX9eWH6dWbPbQ0ZUs0TRZU89BNc2MAp
 
         val decrypt = decrypt(token, key);
-        val usr = JSON.parseObject(decrypt, YidongbangUser.class);
 
-        assertThat(user).isEqualTo(usr);
+        String expiredAt2Str = StringUtils.substringBefore(decrypt, "^");
+        DateTime expiredAt2 = DateTime.parse(expiredAt2Str, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+        if (expiredAt2.isBeforeNow()) { // TOKEN 过期了
+            // do expire process
+        } else {
+            String json2 = StringUtils.substringAfter(decrypt, "^");
+            val usr = JSON.parseObject(json2, YidongbangUser.class);
+            assertThat(user).isEqualTo(usr);
+        }
     }
 }
